@@ -10,7 +10,6 @@ df = pd.read_csv(path, na_values=['', np.nan])
 
 #%%
 # 전처리: 문자열을 숫자형으로 매핑 + 라벨 컬럼 병행 생성
-#%%
 mixed_mapping = {'Student': 1, 'Working Professional': 2, 'Intern': 3}
 mixed_reverse = {v: k for k, v in mixed_mapping.items()}
 df['Working Professional or Student'] = df['Working Professional or Student'].map(mixed_mapping)

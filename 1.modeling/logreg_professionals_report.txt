@@ -1,0 +1,9 @@
+Logistic Regression - Professionals Classification Report
+               precision    recall  f1-score   support
+
+No Depression       0.97      0.99      0.98     20670
+   Depression       0.80      0.64      0.71      1890
+
+     accuracy                           0.96     22560
+    macro avg       0.88      0.81      0.85     22560
+ weighted avg       0.95      0.96      0.95     22560
