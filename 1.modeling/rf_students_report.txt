@@ -1,9 +1,9 @@
-RandomForest - Students Classification Report
+RandomForest - Students
                precision    recall  f1-score   support
 
-No Depression       0.82      0.77      0.80      2343
+No Depression       0.81      0.77      0.79      2343
    Depression       0.84      0.87      0.86      3238
 
      accuracy                           0.83      5581
-    macro avg       0.83      0.82      0.83      5581
+    macro avg       0.83      0.82      0.82      5581
  weighted avg       0.83      0.83      0.83      5581

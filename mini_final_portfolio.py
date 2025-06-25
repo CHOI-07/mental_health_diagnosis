@@ -3,10 +3,18 @@
 #%%
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
-# 데이터 불러오기 (경로 수정 필요)
-path = 'mental_train_lot,lat_최종.csv'
-df = pd.read_csv(path, na_values=['', np.nan])
+# 프로젝트 루트 경로 지정 (현재 파일 기준)
+base_dir = Path(__file__).parent.parent  # 예: '2.visualization' 폴더에서 두 단계 위
+
+# 원본 데이터 경로
+raw_data_path = base_dir / '0.preprocessing' / 'mental_train.csv'
+preprocessed_data_path = base_dir / '0.preprocessing' / 'mental_train_preprocessed.csv'
+
+# 데이터 불러오기
+df_raw = pd.read_csv(raw_data_path, na_values=["", np.nan])
+df_clean = pd.read_csv(preprocessed_data_path)
 
 #%%
 # 전처리: 문자열을 숫자형으로 매핑 + 라벨 컬럼 병행 생성

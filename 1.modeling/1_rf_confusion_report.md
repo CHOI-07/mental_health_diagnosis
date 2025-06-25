@@ -1,30 +1,42 @@
-# 3_xgb_confusion_report
-
-## XGBoost 분류 결과 및 혼동 행렬 시각화
-
-### 1. 개요
-- 정신건강 자가진단 데이터셋에서 학생/직장인 그룹별 분류
-- XGBoost 분류기 사용, Accuracy, Precision, Recall, F1-score 평가
-- 혼동 행렬 시각화 포함
-
-### 2. 주요 평가 결과
-
-| 그룹          | Accuracy | Precision (No/Yes) | Recall (No/Yes) | F1-score (No/Yes) |
-|---------------|----------|--------------------|-----------------|-------------------|
-| 학생 그룹     | 84%      | 0.82 / 0.85        | 0.79 / 0.87     | 0.80 / 0.86       |
-| 직장인 그룹   | 96%      | 0.97 / 0.81        | 0.98 / 0.70     | 0.98 / 0.75       |
-
-### 3. 혼동 행렬 이미지
-
-- 학생 그룹 ![](./cm_xgb_students.png)  
-- 직장인 그룹 ![](./cm_xgb_professionals.png)
+# 1. RandomForest 이진 분류 모델 실험 로그
 
 ---
 
-### 4. 인사이트
-- 학생 그룹은 균형 잡힌 성능  
-- 직장인 그룹은 우울증 환자 재현율 낮음 → 데이터 보강 필요  
+## What: 작업 목적
 
-### 5. 파일
-- 리포트: `1.modeling/xgb_students_report.txt`, `1.modeling/xgb_professionals_report.txt`  
-- 이미지: `1.modeling/cm_xgb_students.png`, `1.modeling/cm_xgb_professionals.png`
+- 전처리된 정신건강 설문 데이터를 기반으로 우울증 여부를 예측
+- 직업군(학생/직장인) 데이터 분리 후 각각 별도 모델 학습
+- 모델: `RandomForestClassifier(n_estimators=100)`
+
+---
+
+## How: 실험 방식
+
+- 입력 데이터: `mental_train_preprocessed.csv`
+- 타겟 변수: `Depression`
+- 제거 변수: 원본 스트레스/만족도 관련 항목 제거 (파생변수로 대체)
+- 전처리
+  - `get_dummies` 후 train/test 컬럼 정렬 강제 (reindex)
+- 모델 학습
+  - 학생용, 직장인용 랜덤포레스트 모델 각각 학습
+- 평가
+  - classification_report 저장
+  - confusion matrix 이미지 저장 (글자 대비 자동조절)
+  - feature importance `.csv` 저장
+
+---
+
+## Why: 실험 의도
+
+- 학생/직장인 간 데이터 분포 및 변수 중요도 차이를 분리 모델로 분석
+- 컬럼 정렬은 train/test 불일치로 인한 학습 오류 방지
+- feature importance는 후속 변수 해석, EDA, 포트폴리오용으로 활용
+- confusion matrix의 수동 텍스트 조정은 발표/시각화 목적 시 직관성 향상
+
+---
+
+## 아웃풋 파일
+
+- `rf_students_report.txt`, `rf_professionals_report.txt`
+- `cm_rf_students.png`, `cm_rf_professionals.png`
+- `rf_students_feature_importance.csv`, `rf_professionals_feature_importance.csv`

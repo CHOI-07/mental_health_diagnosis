@@ -1,47 +1,58 @@
-# XGBoost 분류 결과 및 혼동 행렬 시각화
-
-## 1. 모델 학습 및 평가 개요
-
-- 정신건강 자가진단 데이터셋에서 학생과 직장인 그룹으로 분리  
-- XGBoost 분류 모델을 각각 학습 및 평가  
-- 타겟 변수: Depression (우울증 여부)  
-- 주요 평가 지표: Accuracy, Precision, Recall, F1-score  
-- 혼동 행렬 시각화 포함  
-
-## 2. 평가 결과 - 학생 모델
-
-| 클래스          | Precision | Recall | F1-score | Support |
-|-----------------|-----------|--------|----------|---------|
-| No Depression   | 0.82      | 0.79   | 0.80     | 2343    |
-| Depression      | 0.85      | 0.87   | 0.86     | 3238    |
-| **Accuracy**    |           |        | 0.84     | 5581    |
-| Macro avg       | 0.83      | 0.83   | 0.83     | 5581    |
-| Weighted avg    | 0.84      | 0.84   | 0.84     | 5581    |
-
-## 3. 평가 결과 - 직장인 모델
-
-| 클래스          | Precision | Recall | F1-score | Support |
-|-----------------|-----------|--------|----------|---------|
-| No Depression   | 0.97      | 0.98   | 0.98     | 20670   |
-| Depression      | 0.81      | 0.70   | 0.75     | 1890    |
-| **Accuracy**    |           |        | 0.96     | 22560   |
-| Macro avg       | 0.89      | 0.84   | 0.87     | 22560   |
-| Weighted avg    | 0.96      | 0.96   | 0.96     | 22560   |
-
-## 4. 혼동 행렬 이미지
-
-- Students XGBoost  
-  ![Students XGBoost CM](./cm_xgb_students.png)  
-
-- Professionals XGBoost  
-  ![Professionals XGBoost CM](./cm_xgb_professionals.png)  
+# 3. XGBoost 이진 분류 모델 실험 로그
 
 ---
 
-## 5. 참고 및 해석
+## What: 작업 목적
 
-- 클래스 라벨 0: No Depression  
-- 클래스 라벨 1: Depression  
-- 학생 모델은 전반적으로 균형 잡힌 성능 보여줌  
-- 직장인 모델은 우울증군 재현율(Recall)이 다소 낮아 보완 필요성 존재  
-- 혼동 행렬을 통한 오분류 유형 분석과 추가 개선 권장  
+- 전처리된 정신건강 자가진단 데이터를 기반으로 XGBoostClassifier를 활용한 우울증 분류
+- 직업군(학생/직장인) 분리 후 개별 모델 학습
+- 트리 기반 Boosting 기법을 통해 Recall 성능 및 예측 정밀도 개선 시도
+
+---
+
+## How: 실험 방식
+
+- 입력 데이터: `mental_train_preprocessed.csv`
+- 타겟 변수: `Depression`
+- 전처리
+  - 파생 변수(`Total Pressure`, `Total Satisfaction`)만 사용
+  - One-hot 인코딩 후 train/test 컬럼 정렬 맞춤
+- 모델 학습
+  - `XGBClassifier(n_estimators=100, use_label_encoder=False)`
+  - 학생/직장인 별도 학습
+- 평가
+  - classification_report `.txt` 저장
+  - confusion matrix `.png` 저장
+
+---
+
+## Why: 실험 의도
+
+- 기존 RandomForest 대비 성능 향상 여부 확인
+- 우울 클래스(소수 클래스) 예측 Recall 개선이 주요 목표
+- Boosting 계열 모델의 일반화 성능 확인 및 해석 자료 확보 목적
+
+---
+
+## 평가 요약
+
+### ▶ 학생 그룹 (Students)
+- 정확도: **0.84**
+- 주요 지표:
+  - F1-score (우울 있음): **0.86**
+  - Recall (우울 있음): **0.87**
+  - Precision (우울 있음): **0.85**
+
+### ▶ 직장인 그룹 (Professionals)
+- 정확도: **0.96**
+- 주요 지표:
+  - F1-score (우울 있음): **0.75**
+  - Recall (우울 있음): **0.70**
+  - Precision (우울 있음): **0.81**
+
+---
+
+## 아웃풋 파일
+
+- `xgb_students_report.txt`, `xgb_professionals_report.txt`
+- `cm_xgb_students.png`, `cm_xgb_professionals.png`
