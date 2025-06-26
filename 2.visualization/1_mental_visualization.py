@@ -78,3 +78,44 @@ plt.title('우울증 여부에 따른 재정 스트레스 분포', fontsize=14)
 plt.tight_layout()
 plt.savefig('2.visualization/finance_vs_depression.png', dpi=300)
 plt.show()
+
+
+
+#%% 5. 수면시간 이상치 탐지 및 처리
+
+# IQR 기반 이상치 기준 계산
+Q1 = df_clean['Sleep Duration'].quantile(0.25)
+Q3 = df_clean['Sleep Duration'].quantile(0.75)
+IQR = Q3 - Q1
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+print(f"IQR 기준 하한: {lower_bound}, 상한: {upper_bound}")
+
+# 이상치 마스킹
+outlier_mask = (df_clean['Sleep Duration'] < lower_bound) | (df_clean['Sleep Duration'] > upper_bound)
+df_outliers = df_clean[outlier_mask]
+df_no_outliers = df_clean[~outlier_mask]
+
+print(f"이상치 수: {df_outliers.shape[0]}")
+
+# 이상치 제거 후 시각화
+plt.figure(figsize=(6, 4))
+sns.boxplot(data=df_no_outliers, x='Depression_label', y='Sleep Duration', palette=['#3d4e62', '#f8dcde'])
+plt.title('수면시간 이상치 제거 후 분포', fontsize=14)
+plt.tight_layout()
+plt.savefig('2.visualization/sleep_duration_no_outlier.png', dpi=300)
+plt.show()
+
+# 중앙값 대체 처리
+median_val = df_no_outliers['Sleep Duration'].median()
+df_median_filled = df_clean.copy()
+df_median_filled.loc[outlier_mask, 'Sleep Duration'] = median_val
+
+# 중앙값 대체 후 시각화
+plt.figure(figsize=(6, 4))
+sns.boxplot(data=df_median_filled, x='Depression_label', y='Sleep Duration', palette=['#3d4e62', '#f8dcde'])
+plt.title('수면시간 중앙값 대체 후 분포', fontsize=14)
+plt.tight_layout()
+plt.savefig('2.visualization/sleep_duration_filled_median.png', dpi=300)
+plt.show()

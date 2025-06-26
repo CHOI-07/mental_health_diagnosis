@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
+import joblib
 
 #%% 데이터 불러오기
 path = '0.preprocessing/mental_train_preprocessed.csv'
@@ -116,3 +117,8 @@ def plot_and_save_cm(y_true, y_pred, title, filename):
 # 혼동 행렬 저장
 plot_and_save_cm(y_test_students, y_pred_students, 'Confusion Matrix - Students (XGBoost)', '1.modeling/cm_xgb_students.png')
 plot_and_save_cm(y_test_professionals, y_pred_professionals, 'Confusion Matrix - Professionals (XGBoost)', '1.modeling/cm_xgb_professionals.png')
+
+
+#%% 모델 학습 완료 후 저장
+joblib.dump(model_students, "1.modeling/xgb_students_model.pkl")
+joblib.dump(model_professionals, "1.modeling/xgb_professionals_model.pkl")
