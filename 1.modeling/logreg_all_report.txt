@@ -1,0 +1,12 @@
+[전체 데이터 기준] Logistic Regression 성능 리포트
+
+               precision    recall  f1-score   support
+
+No Depression       0.82      1.00      0.90     22986
+   Depression       0.00      0.00      0.00      5154
+
+     accuracy                           0.82     28140
+    macro avg       0.41      0.50      0.45     28140
+ weighted avg       0.67      0.82      0.73     28140
+
+정확도: 0.817

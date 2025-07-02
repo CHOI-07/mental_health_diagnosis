@@ -1,9 +1,9 @@
 XGBoost - Professionals Classification Report
                precision    recall  f1-score   support
 
-No Depression       0.97      0.98      0.98     20670
-   Depression       0.81      0.70      0.75      1890
+No Depression       0.97      0.99      0.98    103568
+   Depression       0.83      0.70      0.76      9231
 
-     accuracy                           0.96     22560
-    macro avg       0.89      0.84      0.87     22560
- weighted avg       0.96      0.96      0.96     22560
+     accuracy                           0.96    112799
+    macro avg       0.90      0.84      0.87    112799
+ weighted avg       0.96      0.96      0.96    112799
